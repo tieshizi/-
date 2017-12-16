@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .box {
+      margin: 100px auto;
+      width: 790px;
+      height: 340px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .box:hover .arrows {
+      display: block;
+    }
+    
+    ul {
+      width: 1000%;
+      position: absolute;
+    }
+    
+    li {
+      float: left;
+      list-style: none;
+    }
+    
+    .arrows {
+      display: none;
+    }
+    
+    .arrows span {
+      background-color: rgba(0, 0, 0, .2);
+      color: #fff;
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      line-height: 40px;
+      text-align: center;
+      top: 50%;
+      margin-top: -20px;
+      cursor: pointer;
+    }
+    
+    .left-arrow {
+      left: 10px;
+    }
+    
+    .right-arrow {
+      right: 10px;
+    }
+  </style>
+  <script src="animate.js"></script>
+</head>
+<body>
+<div class="box">
+  <ul>
+    <li><img src="images/58c0b221N5acfd3c6.jpg" alt=""></li>
+    <li><img src="images/595b1860Nce2f2252.jpg" alt=""></li>
+    <li><img src="images/5954ad44Ne27d2607.jpg" alt=""></li>
+    <li><img src="images/5955adfdNbc15de6b.jpg" alt=""></li>
+    <li><img src="images/5959bb44Nd511e9e5.jpg" alt=""></li>
+    <li><img src="images/5959be5bN7061be1c.jpg" alt=""></li>
+    <li><img src="images/595373c1Nf053e434.jpg" alt=""></li>
+    <li><img src="images/58c0b221N5acfd3c6.jpg" alt=""></li>
+  </ul>
+  <div class="arrows">
+    <span class="left-arrow">&lt;</span>
+    <span class="right-arrow">&gt;</span>
+  </div>
+</div>
+
+<script>
+  //1.找对象
+  var leftArrow = document.getElementsByClassName("left-arrow")[0];
+  var rightArrow = document.getElementsByClassName("right-arrow")[0];
+  var ul = document.getElementsByTagName("ul")[0];
+  var imgWidth = document.getElementsByClassName("box")[0].offsetWidth;
+  var box = document.getElementsByClassName("box")[0];
+  
+  var count = 0;
+  //2.给按钮添加点击事件
+  leftArrow.onclick = function () {
+    //如果是第0张，显示最一张
+    if(count == 0){
+      //这里不能够给动画，要让用户无意识看到最后一张
+      ul.style.left = -(ul.children.length - 1) * imgWidth + "px";
+      count = ul.children.length - 1;
+    }
+    count --;
+    animate(ul,-count * imgWidth);
+  }
+  
+  rightArrow.onclick = function () {
+    if(count == ul.children.length - 1){
+      ul.style.left = 0;
+      count = 0;
+    }
+    count ++;
+    animate(ul,-count * imgWidth);
+  } 
+
+
+var auto=setInterval(function(){
+rightArrow.click();
+},1500);
+
+
+box.onmouseover=function(){
+  clearInterval(auto);
+}
+
+
+box.onmouseout=function(){
+
+ auto=setInterval(function(){
+rightArrow.click();
+},1500);
+
+
+
+}
+
+
+</script>
+</body>
+</html>

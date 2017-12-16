@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .box {
+      margin: 100px auto;
+      width: 790px;
+      height: 340px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .box:hover .arrows {
+      display: block;
+    }
+    
+    ul {
+      width: 1000%;
+      position: absolute;
+    }
+    
+    li {
+      float: left;
+      list-style: none;
+    }
+    
+    .arrows {
+      display: none;
+    }
+    
+    .arrows span {
+      background-color: rgba(0, 0, 0, .2);
+      color: #fff;
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      line-height: 40px;
+      text-align: center;
+      top: 50%;
+      margin-top: -20px;
+      cursor: pointer;
+    }
+    
+    .left-arrow {
+      left: 10px;
+    }
+    
+    .right-arrow {
+      right: 10px;
+    }
+    
+    .pager {
+      position: absolute;
+      bottom: 10px;
+      right: 50%;
+      margin-left: -65px;
+      background-color: rgba(255, 255, 2555, .2);
+      height: 12px;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    
+    .pager span {
+      background-color: rgba(255, 255, 255, .8);
+      cursor: pointer;
+      float: left;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+    
+    .pager .current {
+      background-color: #f00;
+    }
+  </style>
+  <script src="animate.js"></script>
+</head>
+<body>
+<div class="box">
+  <ul>
+    <li><img src="images/58c0b221N5acfd3c6.jpg" alt=""></li>
+    <li><img src="images/595b1860Nce2f2252.jpg" alt=""></li>
+    <li><img src="images/5954ad44Ne27d2607.jpg" alt=""></li>
+    <li><img src="images/5955adfdNbc15de6b.jpg" alt=""></li>
+    <li><img src="images/5959bb44Nd511e9e5.jpg" alt=""></li>
+    <li><img src="images/5959be5bN7061be1c.jpg" alt=""></li>
+    <li><img src="images/595373c1Nf053e434.jpg" alt=""></li>
+    <li><img src="images/58c0b221N5acfd3c6.jpg" alt=""></li>
+  </ul>
+  <div class="arrows">
+    <span class="left-arrow">&lt;</span>
+    <span class="right-arrow">&gt;</span>
+  </div>
+  <div class="pager">
+    <span class="current"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<script>
+  //1.找对象
+  var leftArrow = document.getElementsByClassName("left-arrow")[0];
+  var rightArrow = document.getElementsByClassName("right-arrow")[0];
+  var ul = document.getElementsByTagName("ul")[0];
+  var imgWidth = document.getElementsByClassName("box")[0].offsetWidth;
+  var box = document.getElementsByClassName("box")[0];
+  var pagers = document.getElementsByClassName("pager")[0].children;
+  
+  var count = 0;
+  //2.给按钮添加点击事件
+  leftArrow.onclick = function () {
+    //如果是第0张，显示最一张
+    if (count == 0) {
+      //这里不能够给动画，要让用户无意识看到最后一张
+      ul.style.left = -(ul.children.length - 1) * imgWidth + "px";
+      count = ul.children.length - 1;
+    }
+    count--;
+    
+    for (var j = 0; j < pagers.length; j++) {
+      pagers[j].className = "";
+    }
+    //同步页码
+    pagers[count].className = "current";
+    
+    animate(ul, -count * imgWidth);
+  }
+
+  rightArrow.onclick = function () {
+    //如果到了最后一张，返回到第1
+    if (count == ul.children.length - 1) {
+      ul.style.left = 0;
+      count = 0;
+    }
+ 
+
+    
+    for (var j = 0; j < pagers.length; j++) {
+      pagers[j].className = "";
+    }
+    //让对应的页码变红
+    count++;
+    
+    if (count == ul.children.length - 1) {  //pagers只有7个,下标 0 ~ 6
+      pagers[0].className = "current";
+    } else {
+      pagers[count].className = "current";
+    }
+    
+    //让图片动画起来
+    animate(ul, -count * imgWidth);
+  }
+ 
+
+
+
+
+
+
+
+  //当点击pager的时候，让图片滚动
+  for (var i = 0; i < pagers.length; i++) {
+    pagers[i].index = i;
+    pagers[i].onclick = function () {
+      //被点击的页码变红
+      for(var j = 0; j < pagers.length;j++){
+        pagers[j].className = "";
+      }
+      pagers[this.index].className = "current";
+      animate(ul,-this.index * imgWidth);
+      count = this.index;
+    }
+  }
+  
+
+
+
+
+
+
+  //自动轮播
+  var autoTimer = setInterval(function () {
+    //相当于点击了一下右箭头
+    rightArrow.click();
+  }, 2000);
+
+  //当鼠标放到box上时，停止轮播
+  box.onmouseover = function () {
+    clearInterval(autoTimer);
+  }
+
+  //当鼠标离开时，重新开始自动轮播
+  box.onmouseout = function () {
+    autoTimer = setInterval(function () {
+      rightArrow.click();
+    }, 2000);
+  }
+</script>
+</body>
+</html>

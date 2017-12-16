@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .box {
+      margin: 100px auto;
+      width: 790px;
+      height: 340px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    ul {
+      width: 1000%;
+      position: absolute;
+    }
+    
+    li {
+      float: left;
+      list-style: none;
+    }
+    
+    .pager {
+      position: absolute;
+      bottom: 10px;
+      right: 0;
+    }
+    
+    .pager span {
+      padding: 0 10px;
+      background-color: #fff;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
+    .current {
+      background-color: #f00 !important;
+    }
+  </style>
+  <script src="animate.js"></script>
+</head>
+<body>
+<div class="box">
+  <ul>
+    <li><img src="images/58c0b221N5acfd3c6.jpg" alt=""></li>
+    <li><img src="images/595b1860Nce2f2252.jpg" alt=""></li>
+    <li><img src="images/5954ad44Ne27d2607.jpg" alt=""></li>
+    <li><img src="images/5955adfdNbc15de6b.jpg" alt=""></li>
+    <li><img src="images/5959bb44Nd511e9e5.jpg" alt=""></li>
+    <li><img src="images/5959be5bN7061be1c.jpg" alt=""></li>
+    <li><img src="images/595373c1Nf053e434.jpg" alt=""></li>
+  </ul>
+  <div class="pager">
+    <span class="current">1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>4</span>
+    <span>5</span>
+    <span>6</span>
+    <span>7</span>
+  </div>
+</div>
+
+
+
+<script>
+ var ul=document.getElementsByTagName('ul')[0];
+ var pagers=document.getElementsByClassName('pager')[0].children;
+ var w =document.getElementsByClassName("box")[0].offsetWidth;
+
+for(var i=0;i<pagers.length;i++){
+  pagers[i].index=i;
+  pagers[i].onclick=function(){
+ 
+ for(var j=0;j<pagers.length;j++){
+  pagers[j].className="";
+ }
+
+
+
+  this.className="current";
+    animate(ul,-this.index*w)
+  }
+}
+
+</script>
+</body>
+</html>
